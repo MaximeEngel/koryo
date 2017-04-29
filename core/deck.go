@@ -2,6 +2,7 @@ package core
 
 import (
 	"fmt"
+	"math/rand"
 )
 
 const NB_CHARS = 45
@@ -20,6 +21,13 @@ func Deck() *deck {
 		}
 	}
 	return d
+}
+
+func (d *deck) Shuffle() {
+	for i := range d.cards {
+		j := rand.Intn(i + 1)
+		d.cards[i], d.cards[j] = d.cards[j], d.cards[i]
+	}
 }
 
 func (d *deck) String() (s string) {
