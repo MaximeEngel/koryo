@@ -37,6 +37,10 @@ func (cardsPtr *cards) Draw() *card {
 	return drawed_card
 }
 
+func (cardsPtr *cards) Add(c ...*card) {
+	*cardsPtr = append(*cardsPtr, c...)
+}
+
 func (cardsPtr *cards) String() (s string) {
 	s = ""
 	for _, v := range *cardsPtr {
