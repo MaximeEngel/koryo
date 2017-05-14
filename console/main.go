@@ -12,13 +12,10 @@ func main() {
 	deck := core.Deck()
 	deck.Shuffle()
 	fmt.Println(deck)
-	first_card := deck.Draw()
-	second_card := deck.Draw()
-	third_card := deck.Draw()
+	player1 := core.Player("Maxime")
+	for i := 0; i < 3; i++ {
+		player1.Draw(deck.Draw())
+	}
 	fmt.Println(deck)
-	fmt.Println(second_card)
-	deck.Add(first_card)
-	fmt.Println(deck)
-	deck.Add(second_card, third_card)
-	fmt.Println(deck)
+	fmt.Println(player1)
 }
