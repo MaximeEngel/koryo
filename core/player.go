@@ -13,6 +13,7 @@ type player struct {
 	Name string
 	hand cards
 	played cards
+	selected_to_play cards
 	victoryPoints int
 }
 
@@ -20,12 +21,47 @@ func Player(name string) *player {
 	return &player{
 		Name:name,
 		hand:make(cards, 0, MAX_HAND_CARDS),
-		played:make(cards, 0, 14),
+		played:make(cards, 0, 14), // 14 seems to be a good average
+		selected_to_play:make(cards, 0, 9), // 9 merchant at max
 		victoryPoints:0}
 }
 
 func (p *player) Draw(c *card) {
 	p.hand = append(p.hand, c)
+}
+
+func (p *player) CanSelectPlayCard(hand_idx uint) bool {
+	nb_selected := len(p.selected_to_play)
+	if nb_selected == 0 {
+		return true
+	}
+
+	two_different := false // TODO HasShipOwnerMajority(p)
+	if nb_selected == 1 && two_different {
+		return true
+	}
+
+	c := p.hand[hand_idx]
+	selected_ids := make(map[CardId]bool)
+	for _, selected := range p.selected_to_play {
+		selected_ids[selected.Id()] = true
+	}
+	if len(selected_ids) == 1 && selected_ids[c.Id()] {
+		return true
+	}
+
+	return false
+}
+
+func (p *player) SelectPlayCard(hand_idx uint) bool {
+	if !p.CanSelectPlayCard(hand_idx) {
+		return false
+	}
+
+	c := p.hand[hand_idx]
+	p.hand = append(p.hand[:hand_idx], p.hand[hand_idx + 1:]...)
+	p.selected_to_play = append(p.selected_to_play, c)
+	return true
 }
 
 func (p *player) String() (s string) {
