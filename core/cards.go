@@ -15,7 +15,7 @@ func Deck() *cards {
 	d := make(cards, 0, NB_CARDS)
 	for i := 1 ; i < 10 ; i++ {
 		for j := 0 ; j < i; j++ {
-			d = append(d, &card{Influence:i})
+			d = append(d, Card(CardId(i)))
 		}
 	}
 	return &d
@@ -44,7 +44,7 @@ func (cardsPtr *cards) Add(c ...*card) {
 func (cardsPtr *cards) String() (s string) {
 	s = ""
 	for _, v := range *cardsPtr {
-		s += fmt.Sprintf("%v", *v)
+		s += fmt.Sprintf("%v ", v)
 	}
 	return
 }

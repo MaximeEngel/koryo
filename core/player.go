@@ -32,11 +32,11 @@ func (p *player) String() (s string) {
 	s = p.Name
 	s += "\n Hand : \n"
 	for _, c := range p.hand {
-		s += fmt.Sprintf(" %v", *c)
+		s += fmt.Sprintf(" %v ", c)
 	}
 	s += "\n Played : \n"
 	for _, c := range p.played {
-		s += fmt.Sprintf("% v", *c)
+		s += fmt.Sprintf("%s ", c)
 	}
 	s += fmt.Sprintf("\n Victory Points : %v", p.victoryPoints)
 	return
