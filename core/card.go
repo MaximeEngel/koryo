@@ -7,11 +7,11 @@ type CardId uint8
 const (
 	OMNISCIENT CardId = iota + 1
 	SPY
+	SENATOR
 	PRIEST
 	SHIP_OWNER
 	BANKER
 	GUARDIAN
-	SENATOR
 	BROADCASTER
 	MERCHANT
 	// EVENTS
@@ -27,7 +27,7 @@ var id_to_name = map[CardId]string{
 	BANKER: "Banker",
 	GUARDIAN: "Guardian",
 	SENATOR: "Senator",
-	BROADCASTER: "Broadcast",
+	BROADCASTER: "Broadcaster",
 	MERCHANT: "Merchant",
 	BARBARIANS: "Barbarians",
 	LOBBYING: "Lobbying",
@@ -49,6 +49,10 @@ func Card(id CardId) *card {
 		influence:_influence,
 		name: id_to_name[id],
 		id: id}
+}
+
+func (cardPtr *card) Id() CardId {
+	return cardPtr.id
 }
 
 func IsEvent(id CardId) bool {
