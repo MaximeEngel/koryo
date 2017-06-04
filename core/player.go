@@ -30,6 +30,22 @@ func (p *player) Draw(c *card) {
 	p.hand = append(p.hand, c)
 }
 
+func (p* player) PlayCard(idx uint) bool {
+	if idx >= uint(len(p.selected_to_play)) {
+		return false
+	}
+
+	// Add
+	p.played = append(p.played, p.selected_to_play[idx])
+
+	// Delete from hand
+	copy(p.selected_to_play[idx:], p.selected_to_play[idx+1:])
+	last := len(p.selected_to_play)-1
+	p.selected_to_play[last] = nil
+	p.selected_to_play = p.selected_to_play[:last]
+	return true
+}
+
 func (p* player) CanSelectPlayCardPtr(c *card) (uint, bool) {
 	for idx, other := range p.hand {
 		if other == c {

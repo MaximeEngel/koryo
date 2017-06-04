@@ -22,5 +22,7 @@ func main() {
 	for i := 0; i < 4; i++ {
 		player1.SelectPlayCardPtr(hand[i])
 	}
+	player1.PlayCard(0)
+	player1.PlayCard(1)
 	fmt.Println(player1)
 }
