@@ -30,6 +30,16 @@ func (p *player) Draw(c *card) {
 	p.hand = append(p.hand, c)
 }
 
+func (p* player) CanSelectPlayCardPtr(c *card) (uint, bool) {
+	for idx, other := range p.hand {
+		if other == c {
+			u_idx := uint(idx)
+			return u_idx, p.CanSelectPlayCard(u_idx)
+		}
+	}
+	return 0, false
+}
+
 func (p *player) CanSelectPlayCard(hand_idx uint) bool {
 	nb_selected := len(p.selected_to_play)
 	if nb_selected == 0 {
@@ -53,6 +63,14 @@ func (p *player) CanSelectPlayCard(hand_idx uint) bool {
 	return false
 }
 
+func (p *player) SelectPlayCardPtr(c *card) bool{
+	idx, found := p.CanSelectPlayCardPtr(c)
+	if found {
+		return p.SelectPlayCard(idx)
+	}
+	return false
+}
+
 func (p *player) SelectPlayCard(hand_idx uint) bool {
 	if !p.CanSelectPlayCard(hand_idx) {
 		return false
@@ -62,6 +80,11 @@ func (p *player) SelectPlayCard(hand_idx uint) bool {
 	p.hand = append(p.hand[:hand_idx], p.hand[hand_idx + 1:]...)
 	p.selected_to_play = append(p.selected_to_play, c)
 	return true
+}
+
+// Only for reading
+func (p* player) HandConst() cards{
+	return p.hand
 }
 
 func (p *player) String() (s string) {

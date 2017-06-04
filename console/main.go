@@ -18,9 +18,9 @@ func main() {
 	}
 	fmt.Println(deck)
 	fmt.Println(player1)
-	fmt.Println(player1.SelectPlayCard(0))
-	fmt.Println(player1.SelectPlayCard(0))
-	fmt.Println(player1.SelectPlayCard(1))
-	fmt.Println(player1.SelectPlayCard(2))
+	hand := player1.HandConst()
+	for i := 0; i < 4; i++ {
+		player1.SelectPlayCardPtr(hand[i])
+	}
 	fmt.Println(player1)
 }
