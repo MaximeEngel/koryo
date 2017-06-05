@@ -20,35 +20,34 @@ const (
 )
 
 var id_to_name = map[CardId]string{
-	OMNISCIENT: "The Omniscient",
-	SPY: "Spy",
-	PRIEST: "Priest",
-	SHIP_OWNER: "Ship Owner",
-	BANKER: "Banker",
-	GUARDIAN: "Guardian",
-	SENATOR: "Senator",
+	OMNISCIENT:  "The Omniscient",
+	SPY:         "Spy",
+	PRIEST:      "Priest",
+	SHIP_OWNER:  "Ship Owner",
+	BANKER:      "Banker",
+	GUARDIAN:    "Guardian",
+	SENATOR:     "Senator",
 	BROADCASTER: "Broadcaster",
-	MERCHANT: "Merchant",
-	BARBARIANS: "Barbarians",
-	LOBBYING: "Lobbying",
+	MERCHANT:    "Merchant",
+	BARBARIANS:  "Barbarians",
+	LOBBYING:    "Lobbying",
 }
-
 
 type card struct {
 	influence int
-	name string
-	id CardId
+	name      string
+	id        CardId
 }
 
 func Card(id CardId) *card {
 	_influence := -1
-	if (IsCharacter(id)) {
+	if IsCharacter(id) {
 		_influence = int(id)
 	}
 	return &card{
-		influence:_influence,
-		name: id_to_name[id],
-		id: id}
+		influence: _influence,
+		name:      id_to_name[id],
+		id:        id}
 }
 
 func (cardPtr *card) Id() CardId {
@@ -56,13 +55,12 @@ func (cardPtr *card) Id() CardId {
 }
 
 func IsEvent(id CardId) bool {
-	return id == LOBBYING || id == BARBARIANS;
+	return id == LOBBYING || id == BARBARIANS
 }
 
 func IsCharacter(id CardId) bool {
-	return !IsEvent(id);
+	return !IsEvent(id)
 }
-
 
 func (cardPtr *card) String() (s string) {
 	return fmt.Sprintf("%v (%v)", cardPtr.name, cardPtr.influence)

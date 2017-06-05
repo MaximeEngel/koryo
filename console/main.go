@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/MaximeEngel/koryo/core"
-	"time"
 	"math/rand"
+	"time"
 )
 
 func main() {

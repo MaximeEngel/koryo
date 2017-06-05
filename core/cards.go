@@ -13,8 +13,8 @@ type cards []*card
 
 func Deck() *cards {
 	d := make(cards, 0, NB_CARDS)
-	for i := 1 ; i < 10 ; i++ {
-		for j := 0 ; j < i; j++ {
+	for i := 1; i < 10; i++ {
+		for j := 0; j < i; j++ {
 			d = append(d, Card(CardId(i)))
 		}
 	}
@@ -23,7 +23,7 @@ func Deck() *cards {
 
 func (cardsPtr *cards) Shuffle() {
 	c := *cardsPtr
-	for i := range c{
+	for i := range c {
 		j := rand.Intn(i + 1)
 		c[i], c[j] = c[j], c[i]
 	}
@@ -31,9 +31,9 @@ func (cardsPtr *cards) Shuffle() {
 
 func (cardsPtr *cards) Draw() *card {
 	c := *cardsPtr
-	drawed_card := c[len(c) - 1]
-	c[len(c) -1 ] = nil
-	*cardsPtr = c[:len(c) - 1]
+	drawed_card := c[len(c)-1]
+	c[len(c)-1] = nil
+	*cardsPtr = c[:len(c)-1]
 	return drawed_card
 }
 
@@ -48,4 +48,3 @@ func (cardsPtr *cards) String() (s string) {
 	}
 	return
 }
-
