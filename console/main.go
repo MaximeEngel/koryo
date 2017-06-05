@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/MaximeEngel/koryo/core"
-	"time"
 	"math/rand"
+	"time"
 )
 
 func main() {
@@ -12,13 +12,17 @@ func main() {
 	deck := core.Deck()
 	deck.Shuffle()
 	fmt.Println(deck)
-	first_card := deck.Draw()
-	second_card := deck.Draw()
-	third_card := deck.Draw()
+	player1 := core.Player("Maxime")
+	for i := 0; i < 8; i++ {
+		player1.Draw(deck.Draw())
+	}
 	fmt.Println(deck)
-	fmt.Println(second_card)
-	deck.Add(first_card)
-	fmt.Println(deck)
-	deck.Add(second_card, third_card)
-	fmt.Println(deck)
+	fmt.Println(player1)
+	hand := player1.HandConst()
+	for i := 0; i < 4; i++ {
+		player1.SelectPlayCardPtr(hand[i])
+	}
+	player1.PlayCard(0)
+	player1.PlayCard(1)
+	fmt.Println(player1)
 }
