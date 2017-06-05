@@ -99,8 +99,25 @@ func (p *player) SelectPlayCard(hand_idx uint) bool {
 }
 
 // Only for reading
-func (p* player) HandConst() cards{
+func (p *player) HandConst() cards{
 	return p.hand
+}
+
+func (p *player) NbHand() int{
+	return len(p.hand)
+}
+
+// Only for reading
+func (p *player) PlayedConst() cards {
+	return p.played
+}
+
+func (p *player) NbPlayed() int {
+	return len(p.played)
+}
+
+func (p *player) NbSelected() int {
+	return len(p.selected_to_play)
 }
 
 func (p *player) String() (s string) {
