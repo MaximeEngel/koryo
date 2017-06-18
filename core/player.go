@@ -112,6 +112,16 @@ func (p *player) PlayedConst() cards {
 	return p.played
 }
 
+func (p *player) HasPlayed(id CardId) int {
+	count := 0
+	for _, card := range p.played {
+		if card.id == id {
+			count++
+		}
+	}
+	return count
+}
+
 func (p *player) NbPlayed() int {
 	return len(p.played)
 }

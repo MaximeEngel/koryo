@@ -12,7 +12,28 @@ func main() {
 	gb := core.GameBoard([]string{"Maxime", "Eloise", "Nathalie"})
 
 	gb.CardDistributionPhase()
-	for player := gb.FirstPlayer(); player != nil ; player = gb.NextCurrentPlayer() {
+	for i := 0; i < 6; i++ {
+		for player := gb.FirstPlayer(); player != nil; player = gb.NextCurrentPlayer() {
+			hand := player.HandConst()
+			for i := 0; i < 4; i++ {
+				player.SelectPlayCardPtr(hand[i])
+			}
+			player.PlayCard(0)
+			player.PlayCard(1)
+		}
+		gb.NextFirstPlayer()
+	}
+	for player := gb.FirstPlayer(); player != nil; player = gb.NextCurrentPlayer() {
 		fmt.Println(player)
+	}
+	gb.NextFirstPlayer()
+	for i := 0 ; i < 11; i++ {
+		id := core.CardId(i)
+		for player := gb.FirstPlayer(); player != nil; player = gb.NextCurrentPlayer() {
+			if gb.HasMajority(player, id, true) {
+				fmt.Printf("%s has %s majority\n", player.Name, core.IdToName(id))
+			}
+		}
+		gb.NextFirstPlayer() // trick because i dont want to make a player iterator for the test
 	}
 }

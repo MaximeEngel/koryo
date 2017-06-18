@@ -74,6 +74,25 @@ func (gb *gameBoard) CardDistributionPhase() {
 	}
 }
 
+func (gb *gameBoard) HasMajority(player *player, id CardId, end_game bool) bool{
+	nb := player.HasPlayed(id)
+	if nb == 0 {
+		return false
+	}
+
+	has_omniscient := player.HasPlayed(OMNISCIENT) >= 1
+	has_majority_equality := !end_game && has_omniscient
+	for _, other := range gb.players {
+		if other != player {
+			other_nb := other.HasPlayed(id)
+			if other_nb > nb || (other_nb == nb && !has_majority_equality) {
+				return false
+			}
+		}
+	}
+	return true
+}
+
 func NbSeasonCardDistribution(season int) int {
 	return 11 - season
 }

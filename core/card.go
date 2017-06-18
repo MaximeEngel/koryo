@@ -65,3 +65,11 @@ func IsCharacter(id CardId) bool {
 func (cardPtr *card) String() (s string) {
 	return fmt.Sprintf("%v (%v)", cardPtr.name, cardPtr.influence)
 }
+
+func IdToName(id CardId) string {
+	name, ok := id_to_name[id]
+	if ok {
+		return name
+	}
+	return "Unknown"
+}
