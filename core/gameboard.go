@@ -47,7 +47,7 @@ func (gb *gameBoard) CurrentPlayer() *player {
 	return gb.players[gb.current_player_idx]
 }
 
-func (gb* gameBoard) NextCurrentPlayer() *player {
+func (gb *gameBoard) NextCurrentPlayer() *player {
 	next_idx := gb.current_player_idx + 1
 	if next_idx >= len(gb.players) {
 		next_idx = 0
@@ -59,4 +59,19 @@ func (gb* gameBoard) NextCurrentPlayer() *player {
 
 	gb.current_player_idx = next_idx
 	return gb.CurrentPlayer()
+}
+
+func (gb *gameBoard) CardDistributionPhase() {
+	base_nb_cards := NbSeasonCardDistribution(gb.season)
+	for _, player := range gb.players {
+		extra := 0 // TODO broadcasters majority power
+		nb_cards := base_nb_cards + extra
+		for i := 0; i < nb_cards; i++ {
+			player.Draw(gb.deck.Draw())
+		}
+	}
+}
+
+func NbSeasonCardDistribution(season int) int {
+	return 11 - season
 }
