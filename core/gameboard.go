@@ -33,6 +33,7 @@ func (gb *gameBoard) FirstPlayer() *player {
 	return gb.players[gb.first_player_idx]
 }
 
+// It finish the table turn, so the current player is also updated for the same player
 func (gb *gameBoard) NextFirstPlayer() *player {
 	next_idx := gb.first_player_idx + 1
 	if next_idx >= len(gb.players) {
@@ -40,6 +41,7 @@ func (gb *gameBoard) NextFirstPlayer() *player {
 	}
 
 	gb.first_player_idx = next_idx
+	gb.current_player_idx = next_idx
 	return gb.FirstPlayer()
 }
 
