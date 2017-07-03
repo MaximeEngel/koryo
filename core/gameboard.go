@@ -2,6 +2,7 @@ package core
 
 import (
 	"math/rand"
+	"sort"
 )
 
 type gameBoard struct {
@@ -81,16 +82,42 @@ func (gb *gameBoard) HasMajority(player *player, id CardId, end_game bool) bool{
 	}
 
 	has_omniscient := player.HasPlayed(OMNISCIENT) >= 1
-	has_majority_equality := !end_game && has_omniscient
+	win_equality := !end_game && has_omniscient
 	for _, other := range gb.players {
 		if other != player {
 			other_nb := other.HasPlayed(id)
-			if other_nb > nb || (other_nb == nb && !has_majority_equality) {
+			if other_nb > nb || (other_nb == nb && !win_equality) {
 				return false
 			}
 		}
 	}
 	return true
+}
+
+func (gb *gameBoard) Scoring() []struct{P *player; S int}{
+	score := make([]struct{P *player; S int}, 0, len(gb.players))
+	for _, p := range gb.players {
+		score = append(score, struct{P *player; S int}{p, gb.ScoringPlayer(p)})
+	}
+	sort.Slice(score, func(i, j int) bool {return score[i].S > score[j].S})
+	return score
+}
+
+func (gb *gameBoard) ScoringPlayer(player *player) int {
+	total := 0
+	iterIds := CardIdsIterator()
+	for id, iter := iterIds(); iter; id, iter = iterIds() {
+		influence := CardInfluence(id)
+		if IsCharacter(id) {
+			if gb.HasMajority(player, id, true) {
+				total += influence
+			}
+		} else {
+			total += player.HasPlayed(id) * influence
+		}
+	}
+
+	return total + player.victoryPoints
 }
 
 func NbSeasonCardDistribution(season int) int {

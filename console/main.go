@@ -12,7 +12,7 @@ func main() {
 	gb := core.GameBoard([]string{"Maxime", "Eloise", "Nathalie"})
 
 	gb.CardDistributionPhase()
-	for i := 0; i < 6; i++ {
+	for i := 0; i < 3; i++ {
 		for player := gb.FirstPlayer(); player != nil; player = gb.NextCurrentPlayer() {
 			hand := player.HandConst()
 			for i := 0; i < 4; i++ {
@@ -35,5 +35,13 @@ func main() {
 			}
 		}
 		gb.NextFirstPlayer() // trick because i dont want to make a player iterator for the test
+	}
+	// Debug why it doesnt print
+	for player := gb.FirstPlayer(); player != nil; player = gb.NextCurrentPlayer() {
+		fmt.Printf("%s score: %d\n", player.Name, gb.ScoringPlayer(player))
+	}
+
+	for _, s := range gb.Scoring() {
+		fmt.Printf("%s score : %d \n", s.P.Name, s.S)
 	}
 }
