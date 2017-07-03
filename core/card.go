@@ -40,14 +40,31 @@ type card struct {
 }
 
 func Card(id CardId) *card {
-	_influence := -1
-	if IsCharacter(id) {
-		_influence = int(id)
-	}
 	return &card{
-		influence: _influence,
+		influence: CardInfluence(id),
 		name:      id_to_name[id],
 		id:        id}
+}
+
+func CardInfluence(id CardId) int {
+	if IsCharacter(id) {
+		return int(id)
+	}
+	// all events
+	return -1
+}
+
+func CardIdsIterator() func()(CardId, bool) {
+	id := 0
+	count := len(id_to_name)
+	return func() (CardId, bool) {
+		id++
+		if id >= count {
+			return CardId(id), false
+		}
+		return CardId(id), true
+
+	}
 }
 
 func (cardPtr *card) Id() CardId {
