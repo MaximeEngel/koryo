@@ -14,20 +14,23 @@ type gameBoard struct {
 }
 
 func GameBoard(players_name []string) *gameBoard {
-	players := make([]*player, 0, len(players_name))
-	for _, name := range players_name {
-		players = append(players, Player(name))
-	}
 	deck := Deck()
 	deck.Shuffle()
+	players := make([]*player, 0, len(players_name))
 	first_player := rand.Intn(len(players))
 
-	return &gameBoard{
-		players:players,
+	gb := &gameBoard{
+		players:nil,
 		first_player_idx: first_player,
 		current_player_idx: first_player,
 		deck:deck,
 		season:1}
+
+	for _, name := range players_name {
+		players = append(players, Player(name, gb))
+	}
+	gb.players = players
+	return gb
 }
 
 func (gb *gameBoard) FirstPlayer() *player {
@@ -67,7 +70,10 @@ func (gb *gameBoard) NextCurrentPlayer() *player {
 func (gb *gameBoard) CardDistributionPhase() {
 	base_nb_cards := NbSeasonCardDistribution(gb.season)
 	for _, player := range gb.players {
-		extra := 0 // TODO broadcasters majority power
+		extra := 0
+		if (gb.HasMajority(player, BROADCASTER, false))  {
+			extra = 1
+		}
 		nb_cards := base_nb_cards + extra
 		for i := 0; i < nb_cards; i++ {
 			player.Draw(gb.deck.Draw())

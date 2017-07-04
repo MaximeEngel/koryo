@@ -15,15 +15,17 @@ type player struct {
 	played cards
 	selected_to_play cards
 	victoryPoints int
+	gb *gameBoard
 }
 
-func Player(name string) *player {
+func Player(name string, gb *gameBoard) *player {
 	return &player{
 		Name:name,
 		hand:make(cards, 0, MAX_HAND_CARDS),
 		played:make(cards, 0, 14), // 14 seems to be a good average
 		selected_to_play:make(cards, 0, 9), // 9 merchant at max
-		victoryPoints:0}
+		victoryPoints:0,
+		gb:gb}
 }
 
 func (p *player) Draw(c *card) {
@@ -62,7 +64,7 @@ func (p *player) CanSelectPlayCard(hand_idx uint) bool {
 		return true
 	}
 
-	two_different := false // TODO HasShipOwnerMajority(p)
+	two_different := p.gb.HasMajority(p, SHIP_OWNER, false)
 	if nb_selected == 1 && two_different {
 		return true
 	}
